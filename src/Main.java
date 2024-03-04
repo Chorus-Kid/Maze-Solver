@@ -51,40 +51,92 @@ public class Main {
     public static ArrayList<String> mazeAnswer(String[][] maze) {
         ArrayList<String> answerKey = new ArrayList<String>();
         answerKey.add("(0,0)");
-        for (int r = 0; r < maze.length; r++) {
-            for (int c = 0; c < maze[0].length; c++) {
-                if (r == 0 && c == 0) {
-                    if (maze[r][c + 1].equals(".")) {
-                        maze[r][c] = "#";
-                        c++;
-                    } else if (maze[r + 1][c].equals(".")) {
-                        maze[r][c] = "#";
-                        r++;
-                    }
-                    String newSpot = "(" + r + ", " + c + ")";
-                    answerKey.add(newSpot);
-                } else if (r == 0 && c != 0) {
-                    if (maze[r][c + 1].equals(".")) {
-                        maze[r][c] = "#";
-                        c++;
-                    } else if (maze[r + 1][c].equals(".")) {
-                        maze[r][c] = "#";
-                        r++;
-                    }
-                    String newSpot = "(" + r + ", " + c + ")";
-                    answerKey.add(newSpot);
-                } else if (c == 0 && r != 0) {
-                    if (maze[r][c + 1].equals(".")) {
-                        maze[r][c] = "#";
-                        c++;
-                    } else if (maze[r + 1][c].equals(".")) {
-                        maze[r][c] = "#";
-                        r++;
-                    }
-                    String newSpot = "(" + r + ", " + c + ")";
-                    answerKey.add(newSpot);
+        int r = 0;
+        int c = 0;
+        while (r <= maze.length && c <= maze[0].length) {
+            if (r == 0 && c == 0) {
+                if (maze[r][c + 1].equals(".")) {
+                    maze[r][c] = "#";
+                    c++;
+                }
+                else if (maze[r + 1][c].equals(".")) {
+                    maze[r][c] = "#";
+                    r++;
+                }
+                String newSpot = "(" + r + ", " + c + ")";
+                answerKey.add(newSpot);
+            }
+            else if (r == 0 && c != 0) {
+                if (maze[r][c + 1].equals(".")) {
+                    maze[r][c] = "#";
+                    c++;
+                }
+                else if (maze[r + 1][c].equals(".")) {
+                    maze[r][c] = "#";
+                    r++;
+                }
+                String newSpot = "(" + r + ", " + c + ")";
+                answerKey.add(newSpot);
+                }
+            else if (c == 0 && r != 0) {
+                if (maze[r][c + 1].equals(".")) {
+                    maze[r][c] = "#";
+                    c++;
+                }
+                else if (maze[r + 1][c].equals(".")) {
+                    maze[r][c] = "#";
+                    r++;
+                }
+                String newSpot = "(" + r + ", " + c + ")";
+                answerKey.add(newSpot);
+                }
+            else if (r == maze.length - 1 && c != maze[0].length - 1) {
+                if (maze[r - 1][c].equals(".")) {
+                    maze[r][c] = "#";
+                    r--;
+                }
+                else if (maze[r][c + 1].equals(".")) {
+                    c++;
+                }
+                String newSpot = "(" + r + ", " + c + ")";
+                answerKey.add(newSpot);
+            }
+            else if (r != maze.length - 1 && c == maze[0].length - 1) {
+                if (maze[r - 1][c].equals(".")) {
+                    maze[r][c] = "#";
+                    r--;
+                }
+                else if (maze[r + 1][c].equals(".")) {
+                    maze[r][c] = "#";
+                    r++;
+                }
+                else if (maze[r][c - 1].equals(".")) {
+                    maze[r][c] = "#";
+                    c--;
+                }
+                String newSpot = "(" + r + ", " + c + ")";
+                answerKey.add(newSpot);
+            }
+            else {
+                if (maze[r - 1][c].equals(".")) {
+                    maze[r][c] = "#";
+                    r--;
+                }
+                else if (maze[r + 1][c].equals(".")) {
+                    maze[r][c] = "#";
+                    r++;
+                }
+                else if (maze[r][c - 1].equals(".")) {
+                    maze[r][c] = "#";
+                    c--;
+                }
+                else if (maze[r][c + 1].equals(".")) {
+                    maze[r][c] = "#";
+                    c++;
                 }
             }
+            String newSpot = "(" + r + ", " + c + ")";
+            answerKey.add(newSpot);
         }
         return answerKey;
     }
