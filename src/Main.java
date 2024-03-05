@@ -53,91 +53,172 @@ public class Main {
         answerKey.add("(0,0)");
         int r = 0;
         int c = 0;
-        while (r <= maze.length && c <= maze[0].length) {
-            if (r == 0 && c == 0) {
+        while (r < maze.length && c < maze[0].length) {
+            boolean north = canIGoNorth(r);
+            boolean south = canIGoSouth(r, maze);
+            boolean east = canIGoEast(c, maze);
+            boolean west = canIGoWest(c);
+            if (!north && south && east && !west) {
                 if (maze[r][c + 1].equals(".")) {
-                    maze[r][c] = "#";
+                    goRight(r, c, maze);
                     c++;
                 }
                 else if (maze[r + 1][c].equals(".")) {
-                    maze[r][c] = "#";
+                    goDown(r, c, maze);
                     r++;
                 }
-                String newSpot = "(" + r + ", " + c + ")";
-                answerKey.add(newSpot);
             }
-            else if (r == 0 && c != 0) {
-                if (maze[r][c + 1].equals(".")) {
-                    maze[r][c] = "#";
+            else if (!north && south && !east && west) {
+                if (maze[r][c - 1].equals(".")) {
+                    goLeft(r, c, maze);
+                    c--;
+                }
+                else if (maze[r + 1][c].equals(".")) {
+                    goDown(r, c, maze);
+                    r++;
+                }
+            }
+            else if (!north) {
+                if (maze[r][c - 1].equals(".")) {
+                    goLeft(r, c, maze);
+                    c--;
+                }
+                else if (maze[r][c + 1].equals(".")) {
+                    goRight(r, c, maze);
                     c++;
                 }
                 else if (maze[r + 1][c].equals(".")) {
-                    maze[r][c] = "#";
+                    goDown(r, c, maze);
                     r++;
                 }
-                String newSpot = "(" + r + ", " + c + ")";
-                answerKey.add(newSpot);
-                }
-            else if (c == 0 && r != 0) {
-                if (maze[r][c + 1].equals(".")) {
-                    maze[r][c] = "#";
-                    c++;
-                }
-                else if (maze[r + 1][c].equals(".")) {
-                    maze[r][c] = "#";
-                    r++;
-                }
-                String newSpot = "(" + r + ", " + c + ")";
-                answerKey.add(newSpot);
-                }
-            else if (r == maze.length - 1 && c != maze[0].length - 1) {
+            }
+            else if (north && !south && east && !west) {
                 if (maze[r - 1][c].equals(".")) {
-                    maze[r][c] = "#";
+                    goUp(r, c, maze);
                     r--;
                 }
                 else if (maze[r][c + 1].equals(".")) {
+                    goRight(r, c, maze);
                     c++;
                 }
-                String newSpot = "(" + r + ", " + c + ")";
-                answerKey.add(newSpot);
             }
-            else if (r != maze.length - 1 && c == maze[0].length - 1) {
+            else if (north && !south && !east && west) {
                 if (maze[r - 1][c].equals(".")) {
-                    maze[r][c] = "#";
+                    goUp(r, c, maze);
+                    r--;
+                }
+                else if (maze[r][c - 1].equals(".")) {
+                    goLeft(r, c, maze);
+                    c--;
+                }
+            }
+            else if (!south) {
+                if (maze[r][c - 1].equals(".")) {
+                    goLeft(r, c, maze);
+                    c--;
+                }
+                else if (maze[r][c + 1].equals(".")) {
+                    goRight(r, c, maze);
+                    c++;
+                }
+                else if (maze[r - 1][c].equals(".")) {
+                    goUp(r, c, maze);
+                    r--;
+                }
+            }
+            else if (!west) {
+                if (maze[r][c + 1].equals(".")) {
+                    goRight(r, c, maze);
+                    c++;
+                }
+                else if (maze[r - 1][c].equals(".")) {
+                    goUp(r, c, maze);
                     r--;
                 }
                 else if (maze[r + 1][c].equals(".")) {
-                    maze[r][c] = "#";
+                    goDown(r, c, maze);
                     r++;
                 }
-                else if (maze[r][c - 1].equals(".")) {
-                    maze[r][c] = "#";
+            }
+            else if (!east) {
+                if (maze[r][c - 1].equals(".")) {
+                    goLeft(r, c, maze);
                     c--;
                 }
-                String newSpot = "(" + r + ", " + c + ")";
-                answerKey.add(newSpot);
+                else if (maze[r + 1][c].equals(".")) {
+                    goDown(r, c, maze);
+                    r++;
+                }
+                else if (maze[r - 1][c].equals(".")) {
+                    goUp(r, c, maze);
+                    r--;
+                }
             }
             else {
-                if (maze[r - 1][c].equals(".")) {
-                    maze[r][c] = "#";
-                    r--;
-                }
-                else if (maze[r + 1][c].equals(".")) {
-                    maze[r][c] = "#";
+                if (maze[r + 1][c].equals(".")) {
+                    goDown(r, c, maze);
                     r++;
                 }
-                else if (maze[r][c - 1].equals(".")) {
-                    maze[r][c] = "#";
-                    c--;
+                else if (maze[r - 1][c].equals(".")) {
+                    goUp(r, c, maze);
+                    r--;
                 }
                 else if (maze[r][c + 1].equals(".")) {
-                    maze[r][c] = "#";
+                    goRight(r, c, maze);
                     c++;
+                }
+                else if (maze[r][c - 1].equals(".")) {
+                    goLeft(r, c, maze);
+                    c--;
                 }
             }
             String newSpot = "(" + r + ", " + c + ")";
             answerKey.add(newSpot);
         }
         return answerKey;
+    }
+    public static boolean canIGoNorth(int x) {
+        boolean yes = true;
+        if (x == 0) {
+            yes = false;
+        }
+        return yes;
+    }
+    public static boolean canIGoSouth(int x, String[][] maze) {
+        boolean yes = true;
+        if (x == maze.length - 1) {
+            yes = false;
+        }
+        return yes;
+    }
+    public static boolean canIGoEast (int y, String[][] maze) {
+        boolean yes = true;
+        if (y == maze[0].length - 1) {
+            yes = false;
+        }
+        return yes;
+    }
+    public static boolean canIGoWest (int y) {
+        boolean weast = true;
+        if (y == 0) {
+            weast = false;
+        }
+        return weast;
+    }
+    public static void goUp (int x, int y, String[][] maze) {
+        maze[x][y] = "#";
+        x--;
+    }
+    public static void goDown (int x, int y, String[][] maze) {
+        maze[x][y] = "#";
+        x++;
+    }
+    public static void goLeft (int x, int y, String[][] maze) {
+        maze[x][y] = "#";
+        y--;
+    }
+    public static void goRight (int x, int y, String[][] maze) {
+        maze[x][y] = "#";
+        y++;
     }
 }
