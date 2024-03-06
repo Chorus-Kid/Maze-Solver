@@ -14,8 +14,8 @@ public class Main {
             }
             System.out.println();
         }
-        ArrayList<String> answersHehhehheh = mazeAnswer(maze);
-        for (String coordinate : answersHehhehheh) {
+        ArrayList<String> answersMwehehehe = mazeAnswer(maze);
+        for (String coordinate : answersMwehehehe) {
             System.out.println(coordinate);
         }
      }
@@ -46,19 +46,85 @@ public class Main {
             }
         }
         return maze;
-
     }
     public static ArrayList<String> mazeAnswer(String[][] maze) {
         ArrayList<String> answerKey = new ArrayList<String>();
+        String[][] aSurpriseToolThatWillHelpUsLater = new String[maze.length][maze[0].length];
+        for (int row = 0; row < maze.length; row++) {
+            for (int column = 0; column < maze[0].length; column++) {
+                aSurpriseToolThatWillHelpUsLater[row][column] = maze[row][column];
+            }
+        }
         answerKey.add("(0,0)");
         int r = 0;
         int c = 0;
-        while (r < maze.length && c < maze[0].length) {
-
-            String newSpot = "(" + r + ", " + c + ")";
-            answerKey.add(newSpot);
+        while (r <= maze.length - 1 && c <= maze[0].length - 1) {
+            boolean up = upQuestionMark(r, c, maze);
+            boolean down = downQuestionMark(r, c, maze);
+            boolean left = leftQuestionMark(r, c, maze);
+            boolean right = rightQuestionMark(r, c, maze);
+            if (up && !down && !left && !right) {
+                maze[r][c] = "#";
+                r--;
+                String newSpot = "(" + r + "," + c + ")";
+                answerKey.add(newSpot);
+            }
+            else if (down && !up && !left && !right) {
+                maze[r][c] = "#";
+                r++;
+                String newSpot = "(" + r + "," + c +")";
+                answerKey.add(newSpot);
+            }
+            else if (left && !up && !down && !right) {
+                maze[r][c] = "#";
+                c--;
+                String newSpot = "(" + r + "," + c +")";
+                answerKey.add(newSpot);
+            }
+            else if (right && !up && !down && !left) {
+                maze[r][c] = "#";
+                c++;
+                String newSpot = "(" + r + "," + c +")";
+                answerKey.add(newSpot);
+            }
         }
         return answerKey;
     }
 
+    public static boolean upQuestionMark(int r, int c, String[][] maze) {
+        boolean upped = false;
+        if (r != 0) {
+            if (maze[r - 1][c].equals(".")) {
+                upped = true;
+            }
+        }
+        return upped;
+    }
+    public static boolean downQuestionMark(int r, int c, String[][] maze) {
+        boolean downed = false;
+        if (r != maze.length - 1) {
+            if (maze[r + 1][c].equals(".")) {
+                downed = true;
+            }
+        }
+        return downed;
+    }
+    public static boolean leftQuestionMark(int r, int c, String[][] maze) {
+        boolean lefted = false;
+        if (c != 0) {
+            if (maze[r][c - 1].equals(".")) {
+                lefted = true;
+            }
+        }
+        return lefted;
+    }
+    public static boolean rightQuestionMark(int r, int c, String[][] maze) {
+        boolean righted = false;
+        if (c != maze[0].length - 1) {
+            if (maze[r][c + 1].equals(".")) {
+                righted = true;
+            }
+        }
+        return righted;
+    }
 }
