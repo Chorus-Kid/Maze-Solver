@@ -66,27 +66,21 @@ public class Main {
             if (up && !down && !left && !right) {
                 maze[r][c] = "#";
                 r--;
-                String newSpot = "(" + r + "," + c + ")";
-                answerKey.add(newSpot);
             }
             else if (down && !up && !left && !right) {
                 maze[r][c] = "#";
                 r++;
-                String newSpot = "(" + r + "," + c +")";
-                answerKey.add(newSpot);
             }
             else if (left && !up && !down && !right) {
                 maze[r][c] = "#";
                 c--;
-                String newSpot = "(" + r + "," + c +")";
-                answerKey.add(newSpot);
             }
             else if (right && !up && !down && !left) {
                 maze[r][c] = "#";
                 c++;
-                String newSpot = "(" + r + "," + c +")";
-                answerKey.add(newSpot);
             }
+            String newSpot = "(" + r + "," + c + ")";
+            answerKey.add(newSpot);
         }
         return answerKey;
     }
