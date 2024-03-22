@@ -58,7 +58,7 @@ public class Main {
         answerKey.add("(0,0)");
         int r = 0;
         int c = 0;
-        while (r <= maze.length - 1 && c <= maze[0].length - 1) {
+        while (!(r == maze.length - 1 && c == maze[0].length - 1)) {
             boolean up = upQuestionMark(r, c, maze);
             boolean down = downQuestionMark(r, c, maze);
             boolean left = leftQuestionMark(r, c, maze);
