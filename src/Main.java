@@ -50,6 +50,7 @@ public class Main {
     public static ArrayList<String> mazeAnswer(String[][] maze) {
         ArrayList<String> answerKey = new ArrayList<String>();
         String[][] aSurpriseToolThatWillHelpUsLater = new String[maze.length][maze[0].length];
+        ArrayList<String> badSpaces = new ArrayList<String>();
         for (int row = 0; row < maze.length; row++) {
             for (int column = 0; column < maze[0].length; column++) {
                 aSurpriseToolThatWillHelpUsLater[row][column] = maze[row][column];
@@ -59,11 +60,27 @@ public class Main {
         int r = 0;
         int c = 0;
         while (!(r == maze.length - 1 && c == maze[0].length - 1)) {
+            System.out.println(maze);
             boolean up = upQuestionMark(r, c, maze);
             boolean down = downQuestionMark(r, c, maze);
             boolean left = leftQuestionMark(r, c, maze);
             boolean right = rightQuestionMark(r, c, maze);
-            if (up && !down && !left && !right) {
+            if (!up && !down && !left && !right) {
+                badSpaces.add("(" + r + "," + c + ")");
+                maze = aSurpriseToolThatWillHelpUsLater;
+                for (String no : badSpaces) {
+                    int ewR = Integer.parseInt(no.substring(1, 2));
+                    int ewC = Integer.parseInt(no.substring(3, 4));
+                    maze[ewR][ewC] = "!";
+                }
+                while (answerKey.size() != 0) {
+                    answerKey.remove(0);
+                }
+                answerKey.add("(0,0)");
+                r = 0;
+                c = 0;
+            }
+            else if (up && !down && !left && !right) {
                 maze[r][c] = "#";
                 r--;
             }
@@ -78,6 +95,24 @@ public class Main {
             else if (right && !up && !down && !left) {
                 maze[r][c] = "#";
                 c++;
+            }
+            else {
+                if (right) {
+                    maze[r][c] = "#";
+                    c++;
+                }
+                else if (left) {
+                    maze[r][c] = "#";
+                    c--;
+                }
+                else if (up) {
+                    maze[r][c] = "#";
+                    r--;
+                }
+                else if (down) {
+                    maze[r][c] = "#";
+                    r++;
+                }
             }
             String newSpot = "(" + r + "," + c + ")";
             answerKey.add(newSpot);
