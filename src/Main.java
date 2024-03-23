@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -56,61 +57,74 @@ public class Main {
                 aSurpriseToolThatWillHelpUsLater[row][column] = maze[row][column];
             }
         }
-        answerKey.add("(0,0)");
         int r = 0;
         int c = 0;
         while (!(r == maze.length - 1 && c == maze[0].length - 1)) {
-            System.out.println(maze);
             boolean up = upQuestionMark(r, c, maze);
             boolean down = downQuestionMark(r, c, maze);
             boolean left = leftQuestionMark(r, c, maze);
             boolean right = rightQuestionMark(r, c, maze);
             if (!up && !down && !left && !right) {
-                badSpaces.add("(" + r + "," + c + ")");
-                maze = aSurpriseToolThatWillHelpUsLater;
-                for (String no : badSpaces) {
-                    int ewR = Integer.parseInt(no.substring(1, 2));
-                    int ewC = Integer.parseInt(no.substring(3, 4));
-                    maze[ewR][ewC] = "!";
+                badSpaces.add(r + "and" + c + "!");
+                for (int row = 0; row < maze.length; row++) {
+                    for (int column = 0; column < maze[0].length; column++) {
+                        maze[row][column] = aSurpriseToolThatWillHelpUsLater[row][column];
+                    }
+                }
+                String allBadSpaces = "";
+                for (String badSpace : badSpaces) {
+                    allBadSpaces = allBadSpaces + badSpace;
+                }
+                String[] allBad = allBadSpaces.split("!");
+                ArrayList<String> badSpacesButBetter = new ArrayList<String>();
+                for (String badAndBad : allBad) {
+                    String[] thisWillDo = badAndBad.split("and");
+                    for (String singularCoordinate : thisWillDo) {
+                        badSpacesButBetter.add(singularCoordinate);
+                    }
+                }
+                for (int i = 0; i < badSpacesButBetter.size(); i = i + 2) {
+                    int intI = Integer.parseInt(badSpacesButBetter.get(i));
+                    int intIone = Integer.parseInt(badSpacesButBetter.get(i + 1));
+                    maze[intI][intIone] = "!";
                 }
                 while (answerKey.size() != 0) {
                     answerKey.remove(0);
                 }
-                answerKey.add("(0,0)");
                 r = 0;
                 c = 0;
             }
             else if (up && !down && !left && !right) {
-                maze[r][c] = "#";
+                maze[r][c] = "^";
                 r--;
             }
             else if (down && !up && !left && !right) {
-                maze[r][c] = "#";
+                maze[r][c] = "^";
                 r++;
             }
             else if (left && !up && !down && !right) {
-                maze[r][c] = "#";
+                maze[r][c] = "^";
                 c--;
             }
             else if (right && !up && !down && !left) {
-                maze[r][c] = "#";
+                maze[r][c] = "^";
                 c++;
             }
             else {
                 if (right) {
-                    maze[r][c] = "#";
+                    maze[r][c] = "^";
                     c++;
                 }
                 else if (left) {
-                    maze[r][c] = "#";
+                    maze[r][c] = "^";
                     c--;
                 }
                 else if (up) {
-                    maze[r][c] = "#";
+                    maze[r][c] = "^";
                     r--;
                 }
                 else if (down) {
-                    maze[r][c] = "#";
+                    maze[r][c] = "^";
                     r++;
                 }
             }
